@@ -16,7 +16,7 @@ def print_popular_articles():
         cur.execute("""
             select articles.title,count(log) num
             from articles,log
-            where log.path ~ articles.slug
+            where concat('/article/', articles.slug) = log.path
             and log.status='200 OK'
             group by articles.title
             order by num desc
@@ -24,7 +24,7 @@ def print_popular_articles():
         """)
         rows = cur.fetchall()
         print '{0:<40} {1:>20}'.format("title", "views")
-        print '-------------------------------------------------------------'
+        print '-' * 40
         for row in rows:
             print '{0:<40} {1:>20}'.format(row[0], row[1])
         cur.close()
@@ -46,7 +46,7 @@ def print_popular_authors():
         cur.execute("""
             select authors.name,count(log) num
             from articles,log,authors
-            where log.path ~ articles.slug
+            where concat('/article/', articles.slug) = log.path
             and log.status='200 OK'
             and authors.id=articles.author
             group by authors.name
@@ -54,7 +54,7 @@ def print_popular_authors():
         """)
         rows = cur.fetchall()
         print '{0:<40} {1:>20}'.format("author", "views")
-        print '-------------------------------------------------------------'
+        print '-' * 40
         for row in rows:
             print '{0:<40} {1:>20}'.format(row[0], row[1])
         cur.close()
@@ -76,13 +76,12 @@ def print_high_errors():
         cur.execute("""
             select sub1.day,
             round(
-                sub2.bad_count::numeric/sub1.good_count::numeric*100,1
+                sub2.bad_count::numeric/sub1.total_count::numeric*100,2
             ) as num
             from
             (
-                    select time::date as day, count(*) as good_count
+                    select time::date as day, count(*) as total_count
                     from log
-                    where status='200 OK'
                     group by day
             ) sub1,
             (
@@ -92,12 +91,12 @@ def print_high_errors():
                     group by day
             ) sub2
             where sub1.day=sub2.day
-            and sub2.bad_count::numeric/sub1.good_count::numeric*100 > 1
+            and sub2.bad_count::numeric/sub1.total_count::numeric*100 > 1
             order by num desc;
         """)
         rows = cur.fetchall()
         print '{0:<40} {1:>20}'.format("date", "% error")
-        print '-------------------------------------------------------------'
+        print '-' * 40
         for row in rows:
             print '{0:<40} {1:>20}'.format(str(row[0]), str(row[1]))
         cur.close()
