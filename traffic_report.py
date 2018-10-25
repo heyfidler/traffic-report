@@ -1,3 +1,5 @@
+#!/usr/bin/python2.7
+
 import psycopg2
 
 DB_NAME = "news"
@@ -104,6 +106,7 @@ def print_high_errors():
     finally:
         if conn is not None:
             conn.close()
+
 
 print_popular_articles()
 print_popular_authors()
