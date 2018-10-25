@@ -24,7 +24,7 @@ def print_popular_articles():
         """)
         rows = cur.fetchall()
         print '{0:<40} {1:>20}'.format("title", "views")
-        print '-' * 40
+        print '-' * 61
         for row in rows:
             print '{0:<40} {1:>20}'.format(row[0], row[1])
         cur.close()
@@ -54,7 +54,7 @@ def print_popular_authors():
         """)
         rows = cur.fetchall()
         print '{0:<40} {1:>20}'.format("author", "views")
-        print '-' * 40
+        print '-' * 61
         for row in rows:
             print '{0:<40} {1:>20}'.format(row[0], row[1])
         cur.close()
@@ -96,7 +96,7 @@ def print_high_errors():
         """)
         rows = cur.fetchall()
         print '{0:<40} {1:>20}'.format("date", "% error")
-        print '-' * 40
+        print '-' * 61
         for row in rows:
             print '{0:<40} {1:>20}'.format(str(row[0]), str(row[1]))
         cur.close()
