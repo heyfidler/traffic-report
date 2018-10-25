@@ -4,7 +4,7 @@ A command line report generator that connects to a PostgreSQL database for Udaci
 
 ## Usage
 Run the traffic_report.py file in python to generate 3 reports based on the Udacity's news website database.
-command: python traffic_report.py
+- command: python traffic_report.py
 
 ## Report generation
 3 reports are generated:
