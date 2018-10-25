@@ -107,6 +107,7 @@ def print_high_errors():
             conn.close()
 
 
-print_popular_articles()
-print_popular_authors()
-print_high_errors()
+if __name__ == '__main__':
+    print_popular_articles()
+    print_popular_authors()
+    print_high_errors()
